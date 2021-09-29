@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace LineBot.Services.Line
 {
-    public class testBranch
+    public class testBranchMain
     {
     }
 }
