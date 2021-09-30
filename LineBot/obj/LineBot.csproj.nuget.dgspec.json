@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\MyProject\\LineBot\\LineBot\\LineBot.csproj": {}
+    "C:\\Users\\Marc\\Desktop\\Code\\cloneProjectTest\\LineBot\\LineBot.csproj": {}
   },
   "projects": {
-    "E:\\MyProject\\LineBot\\LineBot\\LineBot.csproj": {
+    "C:\\Users\\Marc\\Desktop\\Code\\cloneProjectTest\\LineBot\\LineBot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\MyProject\\LineBot\\LineBot\\LineBot.csproj",
+        "projectUniqueName": "C:\\Users\\Marc\\Desktop\\Code\\cloneProjectTest\\LineBot\\LineBot.csproj",
         "projectName": "LineBot",
-        "projectPath": "E:\\MyProject\\LineBot\\LineBot\\LineBot.csproj",
-        "packagesPath": "C:\\Users\\CYY\\.nuget\\packages\\",
-        "outputPath": "E:\\MyProject\\LineBot\\LineBot\\obj\\",
+        "projectPath": "C:\\Users\\Marc\\Desktop\\Code\\cloneProjectTest\\LineBot\\LineBot.csproj",
+        "packagesPath": "C:\\Users\\Marc\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Marc\\Desktop\\Code\\cloneProjectTest\\LineBot\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\CYY\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Marc\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -83,7 +83,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-preview.7.21379.14\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100-rc.1.21463.6\\RuntimeIdentifierGraph.json"
         }
       }
     }
