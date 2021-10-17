@@ -15,6 +15,7 @@ using AngleSharp;
 using System.Net.Http;
 using LineBot.Services.LOL;
 using LineBot.Services.EnglishDictionary;
+using LineBot.Services.Youtube;
 
 namespace LineBot.Controllers
 {
@@ -82,7 +83,7 @@ namespace LineBot.Controllers
                         carouselComponent = new LOLComponent();
                         CarouselTemplate carouselLoLdata = carouselComponent.Component(messageText);
                         JudgeMessageType.RespondsCarouselTemplateData(bot, resultEvents, carouselLoLdata);
-                        sendMessageToUser = "旺旺";
+                        sendMessageToUser = "別查了你最雷";
                         break;
                     case "@e":
                         EnglishDictionary englishDictionary = new EnglishDictionary();
@@ -90,12 +91,18 @@ namespace LineBot.Controllers
                         JudgeMessageType.RespondsStr(bot, resultEvents, searchExplain);
                         sendMessageToUser = "喵~";
                         break;
+                    case "@yt":
+                        Youtube yt = new Youtube();
+                        var youtubeData = yt.YoutubeSearch(messageText).Result;
+                        JudgeMessageType.RespondsStr(bot, resultEvents, youtubeData);
+                        sendMessageToUser = "普通搜尋5筆~";
+                        break;
                     case "@自己去大便":          // 離開
-                        sendMessageToUser = "我不會搭電梯";
+                        sendMessageToUser = "我自己搭電梯";
                         bot.Leave(resultEvents.source.groupId);
                         break;
                     case "@help":
-                        string help = "請使用@來指定功能\n\n 查詢天氣請用:@天氣\n 查詢指定天氣請用:@天氣 臺北市\n 查詢LOL戰機請用:@戰績 LolID\n 查詢英文單字請用:@e word \n 給開發者:@ToDeveloper message.. \n離開房間:@自己去大便";
+                        string help = "請使用@來指定功能\n\n 查詢天氣請用:@天氣\n 查詢指定天氣請用:@天氣 臺北市\n 查詢LOL戰績請用:@戰績 LolID \n查詢英文單字請用:@e word \n 給開發者:@ToDeveloper message.. \n離開房間:@自己去大便 "+"\n\n近期新功能\n查詢youtube請用: @yt video\n";
                         sendMessageToUser = help;
                         break;
                     case "@todeveloper":
@@ -107,6 +114,9 @@ namespace LineBot.Controllers
                         break;
                     case "@杉杉":
                         sendMessageToUser = "我也要油雞燒鴨";
+                        break;
+                    case "@練兵creek":
+                        sendMessageToUser = "是大屌男";
                         break;
                 }
             }
