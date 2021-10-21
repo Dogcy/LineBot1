@@ -28,8 +28,6 @@ namespace LineBot.Services.WeatherInformation
         /// <returns></returns>
         public List<WeatherInformationModel> GetWeatherInfo(string area)
         {
-
-
             string url = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?&Authorization=CWB-DAE5888F-2CE6-4DCB-A336-124E911C89F4";
             // 若有帶參數
 
@@ -57,6 +55,33 @@ namespace LineBot.Services.WeatherInformation
 
             }
             return weatherInformationModels;
+        }
+
+        /// <summary>
+        /// 單比格式
+        /// </summary>
+        /// <param name="area"></param>
+        /// <returns></returns>
+        public WeatherInformationModel GetOneWeatherInfo(string area)
+        {
+            string url = "https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?&Authorization=CWB-DAE5888F-2CE6-4DCB-A336-124E911C89F4";
+            // 若有帶參數
+
+            if (area.Split(" ").Length > 1)
+            {
+
+                url += "&locationName=" + area.Split(" ")[1];
+            }
+            JArray jsondata = GetWeatherInfoJson(url);
+            var weatherInformationModel = new WeatherInformationModel()
+            {
+                Loactionname = (string)jsondata["locationName"], //地名
+                Weathdescrible = (string)jsondata["weatherElement"][0]["time"][0]["parameter"]["parameterName"],//天氣狀況
+                Pop = (string)jsondata["weatherElement"][1]["time"][0]["parameter"]["parameterName"],  //降雨機率
+                Mintemperature = (string)jsondata["weatherElement"][2]["time"][0]["parameter"]["parameterName"], //最低溫度
+                Maxtemperature = (string)jsondata["weatherElement"][4]["time"][0]["parameter"]["parameterName"] //最高溫度
+            };
+            return weatherInformationModel;
         }
         /// <summary>
         /// 與中央氣象局要資料

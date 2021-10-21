@@ -7,7 +7,7 @@ using LineBot.Propertys;
 using LineBot.Services.WeatherInformation;
 namespace LineBot.Services.Line
 {
-    public class WeatherComponent: ICarouselComponent
+    public class WeatherComponent : ICarouselComponent
     {
         // lineBot回訊息有些無法用reply方法來回應
         // 需用userId 或groupId 做messagePush方法回應
@@ -16,22 +16,22 @@ namespace LineBot.Services.Line
         /// 輪播天氣資訊
         /// </summary>
         /// <param name="area"></param>
-        /// <returns></returns>
+        /// <returns>暫時禁止使用</returns>
         public CarouselTemplate Component(string instructionText)
         {
             var weatherInfo = new WeatherInfo();
 
             var weatherInformationModels = weatherInfo.GetWeatherInfo(instructionText);
             var columns = new List<Column>();
-          
+
             foreach (var model in weatherInformationModels)
             {
-              
+
                 var col = new Column()   // 最多只能10個Column
                 {
 
                     title = model.Loactionname,
-                    text =  model.Weathdescrible + " 降雨機率:" + model.Pop  +"%"+ "最低溫度:" + model.Mintemperature+ "°c" + " 最高溫度:" + model.Maxtemperature+ "°c",
+                    text = model.Weathdescrible + " 降雨機率:" + model.Pop + "%" + "最低溫度:" + model.Mintemperature + "°c" + " 最高溫度:" + model.Maxtemperature + "°c",
 
 
                     thumbnailImageUrl = new Uri("https://arock.blob.core.windows.net/blogdata201803/29-101326-d653db4b-44ea-4fe9-af6b-26730734d450.png"),
@@ -39,7 +39,7 @@ namespace LineBot.Services.Line
                 };
                 columns.Add(col);
             }
-           var columns10  = columns.Take(10);
+            var columns10 = columns.Take(10);
             //var ImageCarouselTemplate = new isRock.LineBot.CarouselTemplate();
 
 
@@ -49,7 +49,17 @@ namespace LineBot.Services.Line
         }
 
 
+        public string ReplyWeatherInfo(string instructionText)
+        {
+            var weatherInfo = new WeatherInfo();
 
+            var model = weatherInfo.GetOneWeatherInfo(instructionText);
+
+
+            var data = model.Loactionname + "\n" + model.Weathdescrible + " 降雨機率:" + model.Pop + "%" + "最低溫度:" + model.Mintemperature + "°c" + " 最高溫度:" + model.Maxtemperature + "°c",
+                return data;
+
+        }
 
 
 
