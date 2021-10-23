@@ -26,8 +26,6 @@ namespace LineBot.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-
-
             return Ok();
         }
         /// <summary>
@@ -133,8 +131,7 @@ namespace LineBot.Controllers
                 return Ok();
             }
             catch (Exception ex)
-            {
-                JudgeMessageType.RespondsException(bot, resultEvents, ex);
+            {              
                 return Ok();
             }
         }

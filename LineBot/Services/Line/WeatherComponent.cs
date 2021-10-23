@@ -56,7 +56,7 @@ namespace LineBot.Services.Line
             var model = weatherInfo.GetOneWeatherInfo(instructionText);
 
 
-            var data = model.Loactionname + "\n" + model.Weathdescrible + " 降雨機率:" + model.Pop + "%" + "最低溫度:" + model.Mintemperature + "°c" + " 最高溫度:" + model.Maxtemperature + "°c",
+            var data = model.Loactionname + "\n" + model.Weathdescrible + "\n" + "降雨機率:" + model.Pop + "%" + "\n"+"最低溫度:" + model.Mintemperature + "°c" + "\n" + "最高溫度:" + model.Maxtemperature + "°c";
                 return data;
 
         }

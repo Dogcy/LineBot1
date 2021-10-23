@@ -75,11 +75,11 @@ namespace LineBot.Services.WeatherInformation
             JArray jsondata = GetWeatherInfoJson(url);
             var weatherInformationModel = new WeatherInformationModel()
             {
-                Loactionname = (string)jsondata["locationName"], //地名
-                Weathdescrible = (string)jsondata["weatherElement"][0]["time"][0]["parameter"]["parameterName"],//天氣狀況
-                Pop = (string)jsondata["weatherElement"][1]["time"][0]["parameter"]["parameterName"],  //降雨機率
-                Mintemperature = (string)jsondata["weatherElement"][2]["time"][0]["parameter"]["parameterName"], //最低溫度
-                Maxtemperature = (string)jsondata["weatherElement"][4]["time"][0]["parameter"]["parameterName"] //最高溫度
+                Loactionname = (string)jsondata[0]["locationName"], //地名
+                Weathdescrible = (string)jsondata[0]["weatherElement"][0]["time"][0]["parameter"]["parameterName"],//天氣狀況
+                Pop = (string)jsondata[0]["weatherElement"][1]["time"][0]["parameter"]["parameterName"],  //降雨機率
+                Mintemperature = (string)jsondata[0]["weatherElement"][2]["time"][0]["parameter"]["parameterName"], //最低溫度
+                Maxtemperature = (string)jsondata[0]["weatherElement"][4]["time"][0]["parameter"]["parameterName"] //最高溫度
             };
             return weatherInformationModel;
         }
