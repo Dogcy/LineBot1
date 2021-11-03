@@ -1,5 +1,6 @@
 
 using LineBot.Repository;
+using LineBot.Services.Bookkeep;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -35,6 +36,8 @@ namespace LineBot
                        .AddJsonFile("appsettings.json").Build()["ConnectionStrings:LineDb"];
             services.AddDbContext<LineDbContext>(options => options.UseSqlServer(dbContext));
             services.AddControllers();
+            services.AddScoped<BookKeep2>();
+            services.AddScoped<BookKeep>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LineBot", Version = "v1" });

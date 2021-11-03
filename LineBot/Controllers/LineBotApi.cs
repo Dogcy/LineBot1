@@ -16,6 +16,7 @@ using System.Net.Http;
 using LineBot.Services.LOL;
 using LineBot.Services.EnglishDictionary;
 using LineBot.Services.Youtube;
+using LineBot.Repository;
 
 namespace LineBot.Controllers
 {
@@ -23,6 +24,9 @@ namespace LineBot.Controllers
     [ApiController]
     public class LineBotApi : ControllerBase
     {
+
+
+    
         [HttpGet]
         public IActionResult Get()
         {
@@ -54,12 +58,6 @@ namespace LineBot.Controllers
             var resultEvents = result.events.FirstOrDefault();
             var replyToken = resultEvents.replyToken;
             messageText = resultEvents.message.text;
-
-
-
-
-
-
 
 
             //  圖片的話message.type==s
@@ -99,6 +97,9 @@ namespace LineBot.Controllers
                     case "@自己去大便":          // 離開
                         replyMessage = "我自己搭電梯";
                         bot.Leave(resultEvents.source.groupId);
+                        break;
+                    case "$":
+
                         break;
                     case "@help":
                         string help = "請使用@來指定功能\n\n 查詢天氣請用:@天氣\n 查詢指定天氣請用:@天氣 臺北市\n 查詢LOL戰績請用:@戰績 LolID \n查詢英文單字請用:@e word \n 給開發者:@ToDeveloper message.. \n離開房間:@自己去大便 " + "\n\n近期新功能\n查詢youtube請用: @yt video\n";
