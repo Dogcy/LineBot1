@@ -19,7 +19,7 @@ namespace LineBot.Services.Line
         public static bool CheckIsCallBot( string messageType, string userMessage)
         {
             // user傳遞圖片會是sticker
-            if (messageType != "sticker" && userMessage.Substring(0, 1) == "@")
+            if (messageType != "sticker" && (userMessage.Substring(0, 1) == "@" || userMessage.Substring(0, 1) =="$"))
             {
                 return true;
             }
