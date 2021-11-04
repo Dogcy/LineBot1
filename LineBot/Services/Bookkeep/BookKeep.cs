@@ -9,15 +9,17 @@ namespace LineBot.Services.Bookkeep
         private readonly LineDbContext _db;
         public BookKeep(LineDbContext lineDbContext)
         {
-            _db = lineDbContext;       
+            _db = lineDbContext;
         }
-        public List<User> test1()
+        public string Pay(int money, string record)
         {
-  
-            return _db.Users.ToList();
+
         }
     }
 
+    /// <summary>
+    /// 測試
+    /// </summary>
     public class BookKeep2
     {
         private readonly LineDbContext _db;
@@ -27,7 +29,6 @@ namespace LineBot.Services.Bookkeep
         }
         public List<User> test1()
         {
-
             return _db.Users.ToList();
         }
     }

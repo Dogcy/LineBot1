@@ -36,7 +36,7 @@ namespace LineBot
                        .AddJsonFile("appsettings.json").Build()["ConnectionStrings:LineDb"];
             services.AddDbContext<LineDbContext>(options => options.UseSqlServer(dbContext));
             services.AddControllers();
-            services.AddScoped<BookKeep2>();
+            //services.AddScoped<BookKeep2>();
             services.AddScoped<BookKeep>();
             services.AddSwaggerGen(c =>
             {
