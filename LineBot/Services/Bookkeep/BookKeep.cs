@@ -7,13 +7,21 @@ namespace LineBot.Services.Bookkeep
     public class BookKeep
     {
         private readonly LineDbContext _db;
-        public BookKeep(LineDbContext lineDbContext)
+        private readonly int _money;
+        private readonly string _description;
+        public BookKeep(LineDbContext lineDbContext,string text)
         {
             _db = lineDbContext;
+
+
         }
-        public string Pay(int money, string record)
+        public void Parsing(string instructionText)
         {
 
+        }
+        public string Pay(int money , string description)
+        {
+            return "";
         }
     }
 
