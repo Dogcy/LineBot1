@@ -10,15 +10,15 @@ namespace LineBot.Services.Bookkeep
     public class BookKeep
     {
         private readonly LineDbContext _db;
-        private readonly CheckMember _mb;
+
         private int _money;
         private string _description;
-        public BookKeep(LineDbContext lineDbContext,CheckMember checkMember)
+        public BookKeep(LineDbContext lineDbContext)
         {
             _db = lineDbContext;
-            _mb = checkMember;
+
         }
-        public string Parsing(string instructionText)
+        public string Parsing(string instructionText,int userId)
         {
             bool success;
             string result = string.Empty;
@@ -27,7 +27,7 @@ namespace LineBot.Services.Bookkeep
             success = int.TryParse(list[1], out _money);
 
             if (success)
-            {
+            {             
                 switch (type)
                 {
                     case 1:
@@ -37,12 +37,12 @@ namespace LineBot.Services.Bookkeep
                         }
                         break;
                     case 2:
-                        result = Pay(_money);
+                        result = Pay(_money,userId);
                         break;
                     case 3:
                         if (success)
                         {
-                            result = Pay(_money, list[2]);
+                            result = Pay(_money, list[2], userId);
                         }
                         break;
                 }
@@ -56,12 +56,12 @@ namespace LineBot.Services.Bookkeep
         /// </summary>
         /// <param name="money"></param>
         /// <returns></returns>
-        public string Pay(int money)
+        public string Pay(int money,int userId)
         {
             var consumingRecords = new ConsumingRecord()
             {
                 CreateTime = DateTimeExtension.TaipeiNow(),
-                Uid = 2,
+                Uid = userId,
                 Price = money,
                 Description = "無"
             };
@@ -75,12 +75,12 @@ namespace LineBot.Services.Bookkeep
         /// <param name="money"></param>
         /// <param name="description"></param>
         /// <returns></returns>
-        public string Pay(int money, string description)
+        public string Pay(int money, string description,int userId)
         {
             var consumingRecords = new ConsumingRecord()
             {
                 CreateTime = DateTimeExtension.TaipeiNow(),
-                Uid = 2,
+                Uid = userId,
                 Price = money,
                 Description = description
             };

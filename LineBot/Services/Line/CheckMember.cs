@@ -11,19 +11,26 @@ namespace LineBot.Services.Line
         {
             _db = lineDbContext;
         }
-        public void CheckIsMember(Event e)
+        public int CheckIsMember(Event e)
         {
             var lineId = _db.Users.FirstOrDefault(c => c.LineId == e.source.userId);
+            int userId;
             if (lineId == null)
             {
-                _db.Users.Add(
-                    new User()
-                    {
-                        LineId=e.source.userId,
-                
-                    }
-                    );
+                var user = new User()
+                {
+                    LineId = e.source.userId,
+                    CreateTime = LineBot.Infrastructure.DateTimeExtension.TaipeiNow(),
+                };
+                _db.Users.Add(user);
+                _db.SaveChanges();
+                userId = user.Id;
             }
+            else
+            {
+                userId = lineId.Id;
+            }
+            return userId;
         }
     }
 }

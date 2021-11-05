@@ -25,12 +25,12 @@ namespace LineBot.Controllers
     [ApiController]
     public class LineBotApi : ControllerBase
     {
-        public readonly CheckMember _member;
+        public readonly CheckMember _mb;
         public readonly BookKeep _bk;
         public LineBotApi(BookKeep bookKeep,CheckMember checkMember)
         {
             _bk = bookKeep;
-            _member = checkMember;
+            _mb = checkMember;
         }
 
     
@@ -106,8 +106,8 @@ namespace LineBot.Controllers
                         bot.Leave(resultEvents.source.groupId);
                         break;
                     case "$":
-
-                     replyMessage= _bk.Parsing(messageText);
+                   int userId= _mb.CheckIsMember(resultEvents);
+                         replyMessage = _bk.Parsing(messageText, userId);
                         break;
                     case "@help":
                         string help = "請使用@來指定功能\n\n 查詢天氣請用:@天氣\n 查詢指定天氣請用:@天氣 臺北市\n 查詢LOL戰績請用:@戰績 LolID \n查詢英文單字請用:@e word \n 給開發者:@ToDeveloper message.. \n離開房間:@自己去大便 " + "\n\n近期新功能\n查詢youtube請用: @yt video\n";
