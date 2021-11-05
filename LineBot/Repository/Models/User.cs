@@ -20,5 +20,7 @@ namespace LineBot.Repository.Models
         public string LineId { get; set; }
         [StringLength(10)]
         public string Name { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime CreateTime { get; set; }
     }
 }
