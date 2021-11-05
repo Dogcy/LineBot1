@@ -34,4 +34,8 @@
     <ProjectReference Include="..\LineBot.Infrastructure\LineBot.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repository\" />
+  </ItemGroup>
+
 </Project>

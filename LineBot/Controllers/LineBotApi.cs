@@ -25,11 +25,12 @@ namespace LineBot.Controllers
     [ApiController]
     public class LineBotApi : ControllerBase
     {
-
+        public readonly CheckMember _member;
         public readonly BookKeep _bk;
-        public LineBotApi(BookKeep bookKeep)
+        public LineBotApi(BookKeep bookKeep,CheckMember checkMember)
         {
             _bk = bookKeep;
+            _member = checkMember;
         }
 
     
@@ -105,6 +106,7 @@ namespace LineBot.Controllers
                         bot.Leave(resultEvents.source.groupId);
                         break;
                     case "$":
+
                      replyMessage= _bk.Parsing(messageText);
                         break;
                     case "@help":
