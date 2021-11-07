@@ -27,13 +27,13 @@ namespace LineBot.Controllers
     {
         public readonly CheckMember _mb;
         public readonly BookKeep _bk;
-        public LineBotApi(BookKeep bookKeep,CheckMember checkMember)
+        public LineBotApi(BookKeep bookKeep, CheckMember checkMember)
         {
             _bk = bookKeep;
             _mb = checkMember;
         }
 
-    
+
         [HttpGet]
         public IActionResult Get()
         {
@@ -71,9 +71,12 @@ namespace LineBot.Controllers
 
             if (JudgeMessageType.CheckIsCallBot(resultEvents.message.type, messageText))
             {
-                var TypeText = messageText.Split(" ")[0].ToLower();
+                var typeText = messageText.Split(" ")[0].ToLower();
                 ICarouselComponent carouselComponent = null;
-                switch (TypeText)
+                var checkIsDollar = typeText.FirstOrDefault(c => c == '$');
+                if (checkIsDollar != null) 
+                { typeText = "$"; }
+                switch (typeText)
                 {
                     case "@天氣":
                         //因push要收費改為reply
@@ -106,8 +109,8 @@ namespace LineBot.Controllers
                         bot.Leave(resultEvents.source.groupId);
                         break;
                     case "$":
-                   int userId= _mb.CheckIsMember(resultEvents);
-                         replyMessage = _bk.Parsing(messageText, userId);
+                        int userId = _mb.CheckIsMember(resultEvents);
+                        replyMessage = _bk.Parsing(messageText, userId);
                         break;
                     case "@help":
                         string help = "請使用@來指定功能\n\n 查詢天氣請用:@天氣\n 查詢指定天氣請用:@天氣 臺北市\n 查詢LOL戰績請用:@戰績 LolID \n查詢英文單字請用:@e word \n 給開發者:@ToDeveloper message.. \n離開房間:@自己去大便 " + "\n\n近期新功能\n查詢youtube請用: @yt video\n";
@@ -140,7 +143,7 @@ namespace LineBot.Controllers
                 return Ok();
             }
             catch (Exception ex)
-            {              
+            {
                 return Ok();
             }
         }

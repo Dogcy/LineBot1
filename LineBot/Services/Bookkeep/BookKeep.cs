@@ -1,4 +1,5 @@
-﻿using LineBot.Infrastructure;
+﻿using LineBot.DTO;
+using LineBot.Infrastructure;
 using LineBot.Repository;
 using LineBot.Repository.Models;
 using LineBot.Services.Line;
@@ -18,35 +19,36 @@ namespace LineBot.Services.Bookkeep
             _db = lineDbContext;
 
         }
-        public string Parsing(string instructionText,int userId)
+        public string Parsing(string instructionText, int userId)
         {
-            bool success;
+            //bool success;
             string result = string.Empty;
             var list = instructionText.Split(" ");
             var type = list.Length;
-            success = int.TryParse(list[1], out _money);
+            //success = int.TryParse(list[1], out _money);
 
-            if (success)
-            {             
-                switch (type)
-                {
-                    case 1:
-                        if (instructionText[1] == '月' || instructionText[1] == '日')
-                        {
-                            result = CheckPayRecord();
-                        }
-                        break;
-                    case 2:
-                        result = Pay(_money,userId);
-                        break;
-                    case 3:
-                        if (success)
-                        {
-                            result = Pay(_money, list[2], userId);
-                        }
-                        break;
-                }
+
+            // 長度一 查紀錄
+            // 二 寫入消費金額
+            // 三 寫入金額及內容
+            switch (type)
+            {
+                case 1:
+                    if (instructionText[1] == '月' || instructionText[1] == '日' || instructionText[1] == '週')
+                    {
+                        result = CheckPayRecord(instructionText[1].ToString(), userId);
+                    }
+                    break;
+                case 2:
+                    result = Pay(_money, userId);
+                    break;
+                case 3:
+
+                    result = Pay(_money, list[2], userId);
+
+                    break;
             }
+
 
             return result;
 
@@ -56,7 +58,7 @@ namespace LineBot.Services.Bookkeep
         /// </summary>
         /// <param name="money"></param>
         /// <returns></returns>
-        public string Pay(int money,int userId)
+        private string Pay(int money, int userId)
         {
             var consumingRecords = new ConsumingRecord()
             {
@@ -75,7 +77,7 @@ namespace LineBot.Services.Bookkeep
         /// <param name="money"></param>
         /// <param name="description"></param>
         /// <returns></returns>
-        public string Pay(int money, string description,int userId)
+        private string Pay(int money, string description, int userId)
         {
             var consumingRecords = new ConsumingRecord()
             {
@@ -88,9 +90,56 @@ namespace LineBot.Services.Bookkeep
             _db.SaveChanges();
             return "消費:" + money + "$" + "備註:" + description;
         }
-        public string CheckPayRecord()
+
+
+
+        private string CheckPayRecord(string type, int userId)
         {
-            
+            string result = string.Empty;
+            switch (type)
+            {
+                case "日":
+                    result = CheckPayRecordTodayAndYesterday(userId);
+                    break;
+                case "週":
+                    result = CheckPayRecordWeek(userId);
+                    break;
+                case "月":
+                    result = CheckPayRecordMonth(userId);
+                    break;
+            }
+            return result;
+        }
+        private string CheckPayRecordTodayAndYesterday(int userId)
+        {
+
+            var today = DateTimeExtension.TaipeiNow().Date;
+            var yesterday = DateTimeExtension.TaipeiNow().AddDays(-1).Date;
+            var todayData = _db.ConsumingRecords
+                    .Where(c => c.Uid == userId && c.CreateTime >= yesterday)
+                    .AsEnumerable()
+                    .GroupBy(c =>new { c.CreateTime.Date })
+                    .Select(group => new BookKeepModel
+                    {
+                        CreateTime = group.Key.Date,
+                        BookKeepDetails = group.Select(s => new BookKeepDetail()
+                        {
+                            Description = s.Description,
+                            Price = s.Price
+                        }).ToList()
+                    }).ToList();
+
+            return "";
+        }
+
+        private string CheckPayRecordWeek(int userId)
+        {
+
+            return "";
+        }
+        private string CheckPayRecordMonth(int userId)
+        {
+
             return "";
         }
     }
