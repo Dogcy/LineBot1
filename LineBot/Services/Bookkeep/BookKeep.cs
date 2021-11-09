@@ -11,7 +11,6 @@ namespace LineBot.Services.Bookkeep
     public class BookKeep
     {
         private readonly LineDbContext _db;
-
         private int _money;
         private string _description;
         public BookKeep(LineDbContext lineDbContext)
@@ -21,11 +20,12 @@ namespace LineBot.Services.Bookkeep
         }
         public string Parsing(string instructionText, int userId)
         {
-            //bool success;
+            bool success;
             string result = string.Empty;
+            instructionText = instructionText.Insert(1, " ");
             var list = instructionText.Split(" ");
             var type = list.Length;
-            //success = int.TryParse(list[1], out _money);
+            success = int.TryParse(list[1], out _money);
 
 
             // 長度一 查紀錄
@@ -34,18 +34,26 @@ namespace LineBot.Services.Bookkeep
             switch (type)
             {
                 case 1:
-                    if (instructionText[1] == '月' || instructionText[1] == '日' || instructionText[1] == '週')
-                    {
-                        result = CheckPayRecord(instructionText[1].ToString(), userId);
-                    }
+
                     break;
                 case 2:
-                    result = Pay(_money, userId);
+                    if (success)
+                    {
+                        result = Pay(_money, userId);
+                    }
+                    else
+                    {
+                        if (list[1] == "月" || list[1] == "日" || list[1] == "週")
+                        {
+                            result = CheckPayRecord(list[1].ToString(), userId);
+                        }
+                    }
                     break;
                 case 3:
-
-                    result = Pay(_money, list[2], userId);
-
+                    if (success)
+                    {
+                        result = Pay(_money, list[2], userId);
+                    }
                     break;
             }
 
@@ -69,7 +77,7 @@ namespace LineBot.Services.Bookkeep
             };
             _db.ConsumingRecords.Add(consumingRecords);
             _db.SaveChanges();
-            return money + "$ 已記錄";
+            return "消費:" + money + "$--無\n已記錄";
         }
         /// <summary>
         /// 記帳及備註
@@ -88,7 +96,7 @@ namespace LineBot.Services.Bookkeep
             };
             _db.ConsumingRecords.Add(consumingRecords);
             _db.SaveChanges();
-            return "消費:" + money + "$" + "備註:" + description;
+            return "消費:" + money + "$--"  + description + "\n已記錄";
         }
 
 
@@ -112,13 +120,11 @@ namespace LineBot.Services.Bookkeep
         }
         private string CheckPayRecordTodayAndYesterday(int userId)
         {
-
-            var today = DateTimeExtension.TaipeiNow().Date;
-            var yesterday = DateTimeExtension.TaipeiNow().AddDays(-1).Date;
-            var todayData = _db.ConsumingRecords
+            DateTime yesterday = DateTimeExtension.TaipeiNow().AddDays(-1).Date;
+            var dayData = _db.ConsumingRecords
                     .Where(c => c.Uid == userId && c.CreateTime >= yesterday)
                     .AsEnumerable()
-                    .GroupBy(c =>new { c.CreateTime.Date })
+                    .GroupBy(c => new { c.CreateTime.Date })
                     .Select(group => new BookKeepModel
                     {
                         CreateTime = group.Key.Date,
@@ -127,21 +133,76 @@ namespace LineBot.Services.Bookkeep
                             Description = s.Description,
                             Price = s.Price
                         }).ToList()
-                    }).ToList();
+                    }).OrderByDescending(c => c.CreateTime).ToList();
 
-            return "";
+            string result = "----今,昨日消費---\n\n";
+            if (dayData.Count == 0)
+            {
+                result = "兩天內查無紀錄";
+                return result;
+            }
+            foreach (var item in dayData)
+            {
+                result += "日期:" + item.CreateTime.Date.ToString("MM/dd")+"\n";
+                result += "當日總消費金額:" + item.BookKeepDetails.Sum(c => c.Price);
+                result += "\n";
+                item.BookKeepDetails.Select(c => result += c.Price + "$----" + c.Description.ToString() + "\n").ToList();
+                result += "\n";
+            }
+            return result;
         }
 
         private string CheckPayRecordWeek(int userId)
         {
+            // 本週
+            DateTime thisWeekMonday = DateTimeExtension.TaipeiNow().AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)).Date;
+            DateTime lastWeekMonday = DateTime.Now.AddDays(-6 - Convert.ToInt16(DateTime.Now.DayOfWeek)).Date;
+            var thisWeekData = _db.ConsumingRecords
+        .Where(c => c.Uid == userId && c.CreateTime >= thisWeekMonday)
+        .AsEnumerable()
+          .Select(c => new BookKeepWeekModel
+          {
+              Day = c.CreateTime.DayOfWeek.ToString(),
+              Description = c.Description,
+              Price = c.Price
+          }).GroupBy(c => c.Day)
+          .ToList();
+            var lastWeekData = _db.ConsumingRecords
+        .Where(c => c.Uid == userId && c.CreateTime >= lastWeekMonday && c.CreateTime < thisWeekMonday)
+                .AsEnumerable()
+          .Select(c => new BookKeepWeekModel
+          {
+              Day = c.CreateTime.DayOfWeek.ToString(),
+              Description = c.Description,
+              Price = c.Price
+          }).GroupBy(c => c.Day)
+          .ToList();
+            string result = String.Empty;
+            int totalPrice;
+          totalPrice=   thisWeekData.Sum(group=>group.Sum(c=>c.Price));
+            result += "----本週---總消費:"+ totalPrice;
+            foreach (var item in thisWeekData)
+            {
+                result += "\n<" + item.Key + ">";
+                item.Select(c => result +="\n"+ c.Price + "$----" + c.Description.ToString()).ToList();
 
-            return "";
+            }
+            totalPrice = lastWeekData.Sum(group => group.Sum(c => c.Price));
+            result += "\n\n\n----上週---總消費:"+ totalPrice;
+            foreach (var item in lastWeekData)
+            {
+                result += "\n<" + item.Key + ">";
+                item.Select(c => result +="\n"+ c.Price + "$----" + c.Description.ToString()).ToList();
+            }
+
+            return result;
         }
         private string CheckPayRecordMonth(int userId)
         {
 
             return "";
         }
+
     }
 
     /// <summary>

@@ -74,7 +74,7 @@ namespace LineBot.Controllers
                 var typeText = messageText.Split(" ")[0].ToLower();
                 ICarouselComponent carouselComponent = null;
                 var checkIsDollar = typeText.FirstOrDefault(c => c == '$');
-                if (checkIsDollar != null) 
+                if (checkIsDollar=='$')
                 { typeText = "$"; }
                 switch (typeText)
                 {
@@ -114,7 +114,8 @@ namespace LineBot.Controllers
                         break;
                     case "@help":
                         string help = "請使用@來指定功能\n\n 查詢天氣請用:@天氣\n 查詢指定天氣請用:@天氣 臺北市\n 查詢LOL戰績請用:@戰績 LolID \n查詢英文單字請用:@e word \n 給開發者:@ToDeveloper message.. \n離開房間:@自己去大便 " + "\n\n近期新功能\n查詢youtube請用: @yt video\n";
-                        replyMessage = help;
+                        string bookKeepHelp = "記帳功能:\n查詢兩日內消費紀錄:$日\n查詢上週與本週消費紀錄:$週\n\n記帳指令1:$512\n記帳指令2:$512 吃飯";
+                        replyMessage = help+"\n\n"+ bookKeepHelp;
                         break;
                     case "@todeveloper":
                         JudgeMessageType.RespondsException(bot, resultEvents);
@@ -129,6 +130,10 @@ namespace LineBot.Controllers
                     case "@練兵creek":
                         replyMessage = "是大屌男";
                         break;
+                    case "@阿曼達":
+                        replyMessage = "瘋子";
+                        break;
+
                 }
             }
             else
@@ -144,6 +149,7 @@ namespace LineBot.Controllers
             }
             catch (Exception ex)
             {
+                bot.ReplyMessage(replyToken, ex.Message);
                 return Ok();
             }
         }

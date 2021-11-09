@@ -34,7 +34,7 @@ namespace LineBot
         {
             var dbContext = new ConfigurationBuilder()
                        .SetBasePath(Directory.GetCurrentDirectory())
-                       .AddJsonFile("appsettings.json").Build()["ConnectionStrings:LineDb"];
+                       .AddJsonFile("appsettings.json").Build()["ConnectionStrings:LineDb2"];
             services.AddDbContext<LineDbContext>(options => options.UseSqlServer(dbContext));
             services.AddControllers();
             //services.AddScoped<BookKeep2>();

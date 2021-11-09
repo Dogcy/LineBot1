@@ -13,4 +13,10 @@ namespace LineBot.DTO
         public int Price { get; set; }
         public string Description { get; set; }
     }
+    public class BookKeepWeekModel
+    {
+        public int Price { get; set; }
+        public string Description { get; set; }
+        public string Day { get; set; }
+    }
 }

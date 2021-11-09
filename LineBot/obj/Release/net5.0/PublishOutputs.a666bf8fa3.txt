@@ -46,4 +46,6 @@ E:\MyProject\LineBot\LineBot\obj\Release\net5.0\PubTmp\Out\runtimes\win-x86\nati
 E:\MyProject\LineBot\LineBot\obj\Release\net5.0\PubTmp\Out\runtimes\win-x86\native\Microsoft.Data.SqlClient.SNI.pdb
 E:\MyProject\LineBot\LineBot\obj\Release\net5.0\PubTmp\Out\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 E:\MyProject\LineBot\LineBot\obj\Release\net5.0\PubTmp\Out\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
+E:\MyProject\LineBot\LineBot\obj\Release\net5.0\PubTmp\Out\LineBot.Infrastructure.dll
+E:\MyProject\LineBot\LineBot\obj\Release\net5.0\PubTmp\Out\LineBot.Infrastructure.pdb
 E:\MyProject\LineBot\LineBot\obj\Release\net5.0\PubTmp\Out\LineBot.deps.json
