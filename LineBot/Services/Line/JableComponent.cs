@@ -2,12 +2,19 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
+using LineBot.Repository;
+using LineBot.Repository.Models;
+
 namespace LineBot.Services.Line
 {
     public class JableComponent
     {
-        public JableComponent(int UID)
+        private readonly LineDbContext _db;
+        private readonly int _uid;
+        public JableComponent(LineDbContext lineDbContext)
         {
+            _db = lineDbContext;
+
 
         }
         public string SerchVideosComponent(string instructionText)
@@ -22,6 +29,18 @@ namespace LineBot.Services.Line
             }
             JableVideos.Select(c => result += c.VideoName + "\n" + c.VideoLink + "\n").ToList();
             return result;
+        }
+        private void JableRecord(string instructionText)
+        {
+            var serchWord =  instructionText.Split(" ")[1];
+            var jableRecord = new JableRecord()
+            {
+
+                Uid=_uid,
+                SerchWord= serchWord,                
+                CreateTime= LineBot.Infrastructure.DateTimeExtension.TaipeiNow(),
+            };
+            
         }
     }
 }

@@ -18,9 +18,5 @@ namespace LineBot.Repository.Models
         public string SerchWord { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime CreateTime { get; set; }
-
-        [ForeignKey(nameof(Uid))]
-        [InverseProperty(nameof(User.JableRecords))]
-        public virtual User UidNavigation { get; set; }
     }
 }

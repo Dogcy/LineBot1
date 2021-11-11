@@ -14,7 +14,6 @@ namespace LineBot.Repository.Models
         public User()
         {
             ConsumingRecords = new HashSet<ConsumingRecord>();
-            JableRecords = new HashSet<JableRecord>();
         }
 
         [Key]
@@ -31,7 +30,5 @@ namespace LineBot.Repository.Models
 
         [InverseProperty(nameof(ConsumingRecord.UidNavigation))]
         public virtual ICollection<ConsumingRecord> ConsumingRecords { get; set; }
-        [InverseProperty(nameof(JableRecord.UidNavigation))]
-        public virtual ICollection<JableRecord> JableRecords { get; set; }
     }
 }

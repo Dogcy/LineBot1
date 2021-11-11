@@ -26,8 +26,7 @@ namespace LineBot.Repository
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=DESKTOP-O15LURE\\SQLEXPRESS01;Initial Catalog=LineDb;Integrated Security=True");
+
             }
         }
 
@@ -42,17 +41,6 @@ namespace LineBot.Repository
                     .HasForeignKey(d => d.Uid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ConsumingRecords_User");
-            });
-
-            modelBuilder.Entity<JableRecord>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.HasOne(d => d.UidNavigation)
-                    .WithMany(p => p.JableRecords)
-                    .HasForeignKey(d => d.Uid)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_JableRecords_User");
             });
 
             modelBuilder.Entity<User>(entity =>
