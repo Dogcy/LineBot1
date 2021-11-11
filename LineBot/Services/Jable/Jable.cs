@@ -66,10 +66,8 @@ namespace LineBot.Services.Jable
                 var strr = classDetails[i].TextContent.ToString();
                 var videoName = regg.Match(strr).ToString();
                 //var videoName = strr.Replace("\n", "");
-                var videoLink = reg.Match(classDetails[i].InnerHtml).ToString();
-           
-
-                var model = new JableModel()
+                var videoLink = reg.Match(classDetails[i].InnerHtml).ToString().TrimEnd('"'); 
+                     var model = new JableModel()
                 {
                     VideoName = videoName,
                     VideoLink = videoLink,
