@@ -35,12 +35,9 @@ namespace LineBot.Services.Line
             if (splitSerchWord.Length != 1)
             {
                 serchWord = splitSerchWord[1];
-            }
-         
-            
+            }                     
             var jableRecord = new JableRecord()
             {
-
                 Uid = uid,
                 SerchWord = serchWord,
                 CreateTime = LineBot.Infrastructure.DateTimeExtension.TaipeiNow(),                

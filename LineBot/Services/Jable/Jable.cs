@@ -51,8 +51,8 @@ namespace LineBot.Services.Jable
             //var s =document.GetElementsByClassName("detail")[0].InnerHtml;
             var imgUrls = document.GetElementsByClassName("img-box cover-md");
 
-            var classDetails = document.GetElementsByClassName("detail").ToList();
-            var detailsInnerHtml = classDetails.Select(c => c.InnerHtml).ToList();
+            var classDetails = document.GetElementsByClassName("detail").Take(20).ToList();
+            var detailsInnerHtml = classDetails.Select(c => c.InnerHtml).Take(20).ToList();
             var jableModels = new List<JableModel>();
             var pattern = "https:.+\"";
             Regex reg = new Regex(pattern);

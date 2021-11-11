@@ -156,7 +156,11 @@ namespace LineBot.Controllers
             }
             catch (Exception ex)
             {
-                //bot.ReplyMessage(replyToken, ex.Message);
+
+                if(ex.Message== "訊息內容太長")
+                {
+                    bot.ReplyMessage(replyToken, "錯誤:文字訊息內容太長>想辦法自己關鍵字更準確的搜尋摟 我懶得改");
+                }               
                 return Ok();
             }
         }
