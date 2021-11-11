@@ -6,6 +6,10 @@ namespace LineBot.Services.Line
 {
     public class JableComponent
     {
+        public JableComponent(int UID)
+        {
+
+        }
         public string SerchVideosComponent(string instructionText)
         {
             JableVideos jable = new JableVideos();

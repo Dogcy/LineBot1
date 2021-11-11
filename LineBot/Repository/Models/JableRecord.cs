@@ -8,21 +8,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LineBot.Repository.Models
 {
-    public partial class ConsumingRecord
+    public partial class JableRecord
     {
         [Key]
         [Column("ID")]
         public int Id { get; set; }
-        [Column("UID")]
         public int Uid { get; set; }
-        public int Price { get; set; }
         [StringLength(50)]
-        public string Description { get; set; }
+        public string SerchWord { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime CreateTime { get; set; }
 
         [ForeignKey(nameof(Uid))]
-        [InverseProperty(nameof(User.ConsumingRecords))]
+        [InverseProperty(nameof(User.JableRecords))]
         public virtual User UidNavigation { get; set; }
     }
 }

@@ -11,6 +11,12 @@ namespace LineBot.Repository.Models
     [Table("User")]
     public partial class User
     {
+        public User()
+        {
+            ConsumingRecords = new HashSet<ConsumingRecord>();
+            JableRecords = new HashSet<JableRecord>();
+        }
+
         [Key]
         [Column("ID")]
         public int Id { get; set; }
@@ -22,5 +28,10 @@ namespace LineBot.Repository.Models
         public string Name { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime CreateTime { get; set; }
+
+        [InverseProperty(nameof(ConsumingRecord.UidNavigation))]
+        public virtual ICollection<ConsumingRecord> ConsumingRecords { get; set; }
+        [InverseProperty(nameof(JableRecord.UidNavigation))]
+        public virtual ICollection<JableRecord> JableRecords { get; set; }
     }
 }

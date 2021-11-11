@@ -65,7 +65,7 @@ namespace LineBot.Controllers
             var resultEvents = result.events.FirstOrDefault();
             var replyToken = resultEvents.replyToken;
             messageText = resultEvents.message.text;
-
+            int userId;
 
             //  圖片的話message.type==s
 
@@ -109,11 +109,12 @@ namespace LineBot.Controllers
                         bot.Leave(resultEvents.source.groupId);
                         break;
                     case "$":
-                        int userId = _mb.CheckIsMember(resultEvents);
+                         userId = _mb.CheckIsMember(resultEvents);
                         replyMessage = _bk.Parsing(messageText, userId);
                         break;
                     case "@jab":
-                        var jableComponent = new JableComponent();
+                         userId = _mb.CheckIsMember(resultEvents);
+                        var jableComponent = new JableComponent(userId);
                         replyMessage = jableComponent.SerchVideosComponent(messageText);
                         break;
                     case "@help":
