@@ -40,6 +40,7 @@ namespace LineBot
             //services.AddScoped<BookKeep2>();
             services.AddScoped<BookKeep>();
             services.AddScoped<CheckMember>();
+            services.AddScoped<JableComponent>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "LineBot", Version = "v1" });

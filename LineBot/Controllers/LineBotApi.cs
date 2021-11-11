@@ -27,10 +27,12 @@ namespace LineBot.Controllers
     {
         public readonly CheckMember _mb;
         public readonly BookKeep _bk;
-        public LineBotApi(BookKeep bookKeep, CheckMember checkMember)
+        private readonly JableComponent _jb;
+        public LineBotApi(BookKeep bookKeep, CheckMember checkMember,JableComponent jableComponent)
         {
             _bk = bookKeep;
             _mb = checkMember;
+            _jb = jableComponent;
         }
 
 
@@ -114,8 +116,8 @@ namespace LineBot.Controllers
                         break;
                     case "@jab":
                          userId = _mb.CheckIsMember(resultEvents);
-                        //var jableComponent = new JableComponent();
-                        //replyMessage = jableComponent.SerchVideosComponent(messageText);
+
+                        replyMessage = _jb.SerchVideosComponent(messageText,userId);
                         break;
                     case "@help":
                         string help = "請使用@來指定功能\n\n 查詢天氣請用:@天氣\n 查詢指定天氣請用:@天氣 臺北市\n 查詢LOL戰績請用:@戰績 LolID \n查詢英文單字請用:@e word \n 給開發者:@ToDeveloper message.. \n離開房間:@自己去大便 " + "\n\n近期新功能\n查詢youtube請用: @yt video\n";

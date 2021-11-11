@@ -10,15 +10,13 @@ namespace LineBot.Services.Line
     public class JableComponent
     {
         private readonly LineDbContext _db;
-        private readonly int _uid;
         public JableComponent(LineDbContext lineDbContext)
         {
             _db = lineDbContext;
-
-
         }
-        public string SerchVideosComponent(string instructionText)
+        public string SerchVideosComponent(string instructionText, int uid)
         {
+            this.JableRecord(instructionText, uid);
             JableVideos jable = new JableVideos();
             Task<List<JableModel>> JableModels = jable.GetJableVideos(instructionText);
             var JableVideos = JableModels.Result;
@@ -30,17 +28,25 @@ namespace LineBot.Services.Line
             JableVideos.Select(c => result += c.VideoName + "\n" + c.VideoLink + "\n").ToList();
             return result;
         }
-        private void JableRecord(string instructionText)
+        private void JableRecord(string instructionText, int uid)
         {
-            var serchWord =  instructionText.Split(" ")[1];
+            string serchWord = string.Empty;
+            var splitSerchWord = instructionText.Split(" ");
+            if (splitSerchWord.Length != 1)
+            {
+                serchWord = splitSerchWord[1];
+            }
+         
+            
             var jableRecord = new JableRecord()
             {
 
-                Uid=_uid,
-                SerchWord= serchWord,                
-                CreateTime= LineBot.Infrastructure.DateTimeExtension.TaipeiNow(),
+                Uid = uid,
+                SerchWord = serchWord,
+                CreateTime = LineBot.Infrastructure.DateTimeExtension.TaipeiNow(),                
             };
-            
+            _db.JableRecords.Add(jableRecord);
+            _db.SaveChanges();
         }
     }
 }
