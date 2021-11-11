@@ -40,6 +40,7 @@ namespace LineBot.Services.EnglishDictionary
             var yahooTitel = document.Title;
             try
             {
+                var tsearchWord = document.GetElementsByClassName("fz-24 fw-500 c-black lh-24");
                 var searchWord = document.GetElementsByClassName("fz-24 fw-500 c-black lh-24")[0].InnerHtml;
                 var searchContent = document.GetElementsByClassName("compList mb-25 p-rel")[0].QuerySelectorAll("li").ToList();
                 var RespondContent = "---" + searchWord + "---\n\r";
