@@ -156,7 +156,7 @@ namespace LineBot.Controllers
             }
             catch (Exception ex)
             {
-                bot.ReplyMessage(replyToken, ex.Message);
+                //bot.ReplyMessage(replyToken, ex.Message);
                 return Ok();
             }
         }
