@@ -28,7 +28,7 @@ namespace LineBot.Controllers
         public readonly CheckMember _mb;
         public readonly BookKeep _bk;
         private readonly JableComponent _jb;
-        public LineBotApi(BookKeep bookKeep, CheckMember checkMember,JableComponent jableComponent)
+        public LineBotApi(BookKeep bookKeep, CheckMember checkMember, JableComponent jableComponent)
         {
             _bk = bookKeep;
             _mb = checkMember;
@@ -111,13 +111,13 @@ namespace LineBot.Controllers
                         bot.Leave(resultEvents.source.groupId);
                         break;
                     case "$":
-                         userId = _mb.CheckIsMember(resultEvents);
+                        userId = _mb.CheckIsMember(resultEvents);
                         replyMessage = _bk.Parsing(messageText, userId);
                         break;
                     case "@jab":
-                         userId = _mb.CheckIsMember(resultEvents);
+                        userId = _mb.CheckIsMember(resultEvents);
 
-                        replyMessage = _jb.SerchVideosComponent(messageText,userId);
+                        replyMessage = _jb.SerchVideosComponent(messageText, userId);
                         break;
                     case "@help":
                         string help = "請使用@來指定功能\n\n 查詢天氣請用:@天氣\n 查詢指定天氣請用:@天氣 臺北市\n 查詢LOL戰績請用:@戰績 LolID \n查詢英文單字請用:@e word \n 給開發者:@ToDeveloper message.. \n離開房間:@自己去大便 " + "\n\n近期新功能\n查詢youtube請用: @yt video\n";
@@ -140,6 +140,21 @@ namespace LineBot.Controllers
                     case "@阿曼達":
                         replyMessage = "瘋子";
                         break;
+                    case "@玟瑄":
+                        var random = new Random();
+                        List<string> adj = new List<string>()
+                        {
+                            "醉鬼",
+                            "醉鬼",
+                            "我頭髮好臭",
+                            "我愛童培元",
+                            "我還要喝",
+                            "不要阻止我",
+                             "我瀏海燒焦了",
+                        };
+                        int index = random.Next(adj.Count);
+                        replyMessage = adj[index];
+                        break;
 
                 }
             }
@@ -157,10 +172,10 @@ namespace LineBot.Controllers
             catch (Exception ex)
             {
 
-                if(ex.Message== "訊息內容太長")
+                if (ex.Message == "訊息內容太長")
                 {
                     bot.ReplyMessage(replyToken, "錯誤:文字訊息內容太長>想辦法自己關鍵字更準確的搜尋摟 我懶得改");
-                }               
+                }
                 return Ok();
             }
         }
